@@ -32,3 +32,76 @@ To get started with Modulus, follow these steps:
 Modulus is now ready to use! You can start creating dynamic mocks and simulating complex user journeys.
 Go to: http://localhost:3000 to access the Modulus dashboard.
 
+## Configuring Mocks
+
+Mocks are organized in the `/mocks` directory. Each mock service is a folder containing an `index.json` configuration file and one or more response files.
+
+### Mock Structure
+
+Each mock folder follows this pattern:
+```
+mocks/
+├── my-service/
+│   ├── index.json
+│   ├── success.json
+│   ├── error.json
+│   └── ...other responses
+```
+
+### index.json Configuration
+
+The `index.json` file defines the API endpoint and how responses are selected. Here's an example:
+
+```json
+{
+  "name": "Change Number",
+  "desc": "API to Change Number",
+  "defaultResponse": "success",
+  "method": "post",
+  "path": "/v1/api/test/change",
+  "uniqueKey": {
+    "target": "body",
+    "modifier": "mobileNumber",
+    "type": "mobileNumber"
+  }
+}
+```
+
+**Configuration Fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Display name of the mock API |
+| `desc` | string | Description of what the API does |
+| `method` | string | HTTP method: `get`, `post`, `put`, `delete`, etc. |
+| `path` | string | API endpoint path that will be mocked |
+| `defaultResponse` | string | Default response file to use (without `.json` extension) |
+| `uniqueKey` | object | Configuration for selective response routing based on request data |
+| `uniqueKey.target` | string | Where to look for the identifier: `body`, `query`, or `header` |
+| `uniqueKey.modifier` | string | The field name to extract from the target |
+| `uniqueKey.type` | string | The type of identifier (e.g., `mobileNumber`, `userId`, `email`) |
+
+### Response Files
+
+Response files contain the actual JSON responses that will be returned by the mocked API. Each file is named based on its scenario (e.g., `success.json`, `error.json`).
+
+**Example success.json:**
+```json
+{
+  "statusCode": 200,
+  "message": "Number changed successfully",
+  "data": {
+    "mobileNumber": "+1234567890",
+    "status": "active"
+  }
+}
+```
+
+**Example error.json:**
+```json
+{
+  "statusCode": 400,
+  "message": "Invalid mobile number format",
+  "error": "INVALID_INPUT"
+}
+```
