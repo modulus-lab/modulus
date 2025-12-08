@@ -1,0 +1,9 @@
+{
+  "name": "@modulus-labs/vite-plugin",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "vite": "^7.2.7",
+    "vite-node": "^5.2.0"
+  }
+}

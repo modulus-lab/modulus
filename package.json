@@ -1,8 +1,11 @@
 {
   "name": "@modulus-labs/modulus",
   "version": "0.0.1",
+  "type": "module",
   "workspaces": [
-    "core"
+    "apps/*",
+    "core",
+    "packages/*"
   ],
   "repository": {
     "type": "git",
@@ -21,6 +24,9 @@
     "url": "https://github.com/modulus-lab/modulus/issues"
   },
   "homepage": "https://github.com/modulus-lab/modulus#readme",
+  "scripts": {
+    "lint": "biome format --write"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
     "typescript": "^5.9.3"

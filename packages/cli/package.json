@@ -1,0 +1,8 @@
+{
+  "name": "@modulus-labs/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "commander": "^14.0.2"
+  }
+}
