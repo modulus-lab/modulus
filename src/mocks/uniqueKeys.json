@@ -1,13 +1,5 @@
 [
   {
-    "name": "userId",
-    "type": "incrementing",
-    "config": {
-      "start": "1000",
-      "prefix": "user"
-    }
-  },
-  {
     "name": "pan",
     "type": "incrementing",
     "config": {
@@ -21,6 +13,14 @@
     "type": "incrementing",
     "config": {
       "start": "101023104000"
+    }
+  },
+  {
+    "name": "userId",
+    "type": "incrementing",
+    "config": {
+      "start": "1000",
+      "prefix": "user"
     }
   },
   {
