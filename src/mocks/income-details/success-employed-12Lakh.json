@@ -1,0 +1,15 @@
+{
+  "name": "Success 12 Lakh",
+  "status": "200",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "userId": "{{req.params.userId}}",
+    "income": {
+      "annualIncomeINR": "1200000",
+      "incomeSource": "EMPLOYED",
+      "sector": "SOFTWARE"
+    }
+  }
+}

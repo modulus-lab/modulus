@@ -1,0 +1,28 @@
+{
+  "name": "Success",
+  "status": "200",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "userId": "{{req.params.userId}}",
+    "experian": {
+      "creditScore": "800",
+      "creditUtilization": "200000",
+      "creditLimit": "600000",
+      "existingLoans": [
+        {
+          "name": "ICICI Housing Loan",
+          "principal": "100000",
+          "disbursementDate": "2022-1-30",
+          "equitedMonthlyInstallment": "1000",
+          "totalInstallments": "100",
+          "remainingInstallments": "22",
+          "defaultedInstallments": "2",
+          "paidInstallments": "78",
+          "defaultPending": "0"
+        }
+      ]
+    }
+  }
+}

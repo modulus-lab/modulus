@@ -1,0 +1,11 @@
+{
+  "name": "Error",
+  "status": "500",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "result-code": "-3",
+    "id": "{{faker.string.uuid()}}"
+  }
+}

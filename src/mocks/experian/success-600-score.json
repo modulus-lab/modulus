@@ -1,0 +1,28 @@
+{
+  "name": "Success",
+  "status": "200",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "userId": "{{req.params.userId}}",
+    "experian": {
+      "creditScore": "600",
+      "creditUtilization": "100000",
+      "creditLimit": "320000",
+      "existingLoans": [
+        {
+          "name": "HDB Housing Loan",
+          "principal": "250000",
+          "disbursementDate": "01-07-2020",
+          "equitedMonthlyInstallment": "2500",
+          "totalInstallments": "240",
+          "remainingInstallments": "120",
+          "defaultedInstallments": "0",
+          "paidInstallments": "120",
+          "defaultPending": "0"
+        }
+      ]
+    }
+  }
+}

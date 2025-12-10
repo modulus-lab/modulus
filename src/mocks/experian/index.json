@@ -1,0 +1,12 @@
+{
+  "name": "Experian",
+  "desc": "Experian API",
+  "defaultResponse": "success-760-score",
+  "method": "get",
+  "path": "/api/users/:userId/experian",
+  "uniqueKey": {
+    "target": "params",
+    "modifier": "userId",
+    "type": "userId"
+  }
+}

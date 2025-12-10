@@ -19,7 +19,7 @@ export interface ServiceConfig {
 
 export interface UniqueKey {
   modifier: string,
-  target: "query" | "path" | "headers" | "body",
+  target: "query" | "params" | "headers" | "body",
   type: string
 }
 
@@ -54,7 +54,7 @@ export async function loadMockRouters(): Promise<Router> {
       if (!router) continue;
       serviceConfigs[serviceName] = getServiceConfig(serviceName, router);
       console.log(`✓ Service '${serviceName}' loaded successfully`);
-      mockRouter.use(`/${serviceName}`, router);
+      mockRouter.use(`/`, router);
     }
 
     console.log(`\n✓ Generated service configs for ${Object.keys(serviceConfigs).length} service(s)`);

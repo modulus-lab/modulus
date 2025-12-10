@@ -3,7 +3,8 @@
     "name": "userId",
     "type": "incrementing",
     "config": {
-      "start": "1000"
+      "start": "1000",
+      "prefix": "user"
     }
   },
   {

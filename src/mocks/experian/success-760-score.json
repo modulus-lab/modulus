@@ -1,0 +1,28 @@
+{
+  "name": "Success",
+  "status": "200",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "userId": "{{req.params.userId}}",
+    "experian": {
+      "creditScore": "760",
+      "creditUtilization": "120000",
+      "creditLimit": "550000",
+      "existingLoans": [
+        {
+          "name": "HDFC Personal Loan",
+          "principal": "40000",
+          "disbursementDate": "15-03-2021",
+          "equitedMonthlyInstallment": "900",
+          "totalInstallments": "48",
+          "remainingInstallments": "18",
+          "defaultedInstallments": "0",
+          "paidInstallments": "30",
+          "defaultPending": "0"
+        }
+      ]
+    }
+  }
+}

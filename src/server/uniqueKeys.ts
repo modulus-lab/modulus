@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker';
-import uniqueKeysConfig from '@/mocks/uniqueKeys.json' with { type: 'json' };
+import {faker} from '@faker-js/faker';
+import uniqueKeysConfig from '@/mocks/uniqueKeys.json' with {type: 'json'};
 
 export function generateAllUniqueKeys(currentValues: Record<string, string>): Record<string, string> {
   const newValues: Record<string, string> = {};
@@ -53,10 +53,13 @@ function createGenerator(config: GeneratorConfig): Generator {
     return {
       name: config.name,
       generate: (currentValue?: string) => {
-        if (!currentValue) return genConfig.start || '1000';
+          if (genConfig.prefix){
+              currentValue = currentValue?.slice(genConfig.prefix.length);
+          }
+        if (!currentValue) return (genConfig.prefix || '') + (genConfig.start || '1000');
         const currentNum = parseInt(currentValue, 10);
-        if (isNaN(currentNum)) return genConfig.start || '1000';
-        return (currentNum + 1).toString();
+        if (isNaN(currentNum)) return (genConfig.prefix || '') + (genConfig.start || '1000');
+        return (genConfig.prefix || '')+(currentNum + 1).toString();
       }
     };
   }

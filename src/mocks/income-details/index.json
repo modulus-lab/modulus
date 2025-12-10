@@ -1,0 +1,12 @@
+{
+  "name": "income-details",
+  "desc": "Income Details API",
+  "defaultResponse": "success-employed-12Lakh",
+  "method": "get",
+  "path": "/api/users/:userId/income",
+  "uniqueKey": {
+    "target": "params",
+    "modifier": "userId",
+    "type": "userId"
+  }
+}
