@@ -8,6 +8,22 @@
     }
   },
   {
+    "name": "pan",
+    "type": "incrementing",
+    "config": {
+      "start": "1000",
+      "prefix": "AYXIP",
+      "suffix": "Z"
+    }
+  },
+  {
+    "name": "accountNumber",
+    "type": "incrementing",
+    "config": {
+      "start": "101023104000"
+    }
+  },
+  {
     "name": "mobileNumber",
     "type": "helpers.fromRegExp",
     "config": {

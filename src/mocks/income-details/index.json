@@ -7,6 +7,6 @@
   "uniqueKey": {
     "target": "params",
     "modifier": "userId",
-    "type": "userId"
+    "type": "pan"
   }
 }
