@@ -51,7 +51,7 @@ export async function loadMockRouters(mocksDir: string): Promise<Router> {
       if (!router) continue;
       serviceConfigs[serviceName] = getServiceConfig(serviceName, router);
       console.log(`✓ Service '${serviceName}' loaded successfully`);
-      mockRouter.use(`/${serviceName}`, router);
+      mockRouter.use(router);
     }
 
     console.log(
