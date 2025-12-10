@@ -1,0 +1,12 @@
+{
+  "name": "Change Number",
+  "desc": "API to Change Number",
+  "defaultResponse": "success",
+  "method": "post",
+  "path": "/v1/api/test/change",
+  "uniqueKey": {
+    "target": "body",
+    "modifier": "mobileNumber",
+    "type": "mobileNumber"
+  }
+}

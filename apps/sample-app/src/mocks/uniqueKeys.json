@@ -1,0 +1,16 @@
+[
+  {
+    "name": "userId",
+    "type": "incrementing",
+    "config": {
+      "start": "1000"
+    }
+  },
+  {
+    "name": "mobileNumber",
+    "type": "helpers.fromRegExp",
+    "config": {
+      "args": ["9[0-9]{9}"]
+    }
+  }
+]

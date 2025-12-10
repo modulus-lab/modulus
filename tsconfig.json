@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "module": "nodenext",
+    "moduleResolution": "bundler",
     "target": "esnext",
+    "allowJs": true,
+    "allowImportingTsExtensions": true,
 
     "lib": ["esnext"],
     "types": ["node"],

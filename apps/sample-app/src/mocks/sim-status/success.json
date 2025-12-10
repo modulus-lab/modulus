@@ -1,0 +1,14 @@
+{
+  "name": "Success",
+  "status": "200",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": [
+    {
+      "mobileNumber": "{{req.query.mobileNumber}}",
+      "status": "SUCCESSFUL",
+      "refId": "{{faker.string.uuid()}}"
+    }
+  ]
+}

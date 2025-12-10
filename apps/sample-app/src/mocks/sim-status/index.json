@@ -1,0 +1,12 @@
+{
+  "name": "SIM status",
+  "desc": "API to get SIM status",
+  "defaultResponse": "success",
+  "method": "get",
+  "path": "/v1/api/test",
+  "uniqueKey": {
+    "target": "query",
+    "modifier": "mobileNumber",
+    "type": "mobileNumber"
+  }
+}

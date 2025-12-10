@@ -12,6 +12,11 @@
   },
   "dependencies": {
     "express": "^5.2.1",
-    "vite": "^7.2.7"
+    "lodash": "^4.17.21",
+    "vite": "^7.2.7",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.21"
   }
 }

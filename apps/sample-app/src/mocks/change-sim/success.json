@@ -1,0 +1,11 @@
+{
+  "name": "Success",
+  "status": "200",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "result-code": 0,
+    "id": "{{faker.string.uuid()}}"
+  }
+}
