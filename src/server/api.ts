@@ -12,11 +12,14 @@ router.get('/services', asyncHandler((_: Request, res: Response) => {
 }));
 
 router.post('/generate-response', asyncHandler(async (req: Request, res: Response) => {
-  const serviceSelections = req.body;
+  const body = req.body;
 
-  if (!serviceSelections || typeof serviceSelections !== 'object') {
+  if (!body || typeof body !== 'object') {
     throw new HttpError(400, 'Invalid request body', 'Request body must be an object with service selections');
   }
+
+  const serviceSelections = body.responses && typeof body.responses === 'object' ? body.responses : body;
+  const serviceConfigs = body.configs && typeof body.configs === 'object' ? body.configs : {};
 
   const lastRecord = getStorage().findLatest('responses');
   const existingKeys = lastRecord?.uniqueKeys || {};
@@ -25,6 +28,7 @@ router.post('/generate-response', asyncHandler(async (req: Request, res: Respons
 
   const responseRecord = {
     responses: serviceSelections,
+    configs: serviceConfigs,
     uniqueKeys: newUniqueKeys,
     timestamp: new Date().toISOString()
   };
@@ -33,6 +37,7 @@ router.post('/generate-response', asyncHandler(async (req: Request, res: Respons
 
   res.status(200).json({
     responses: serviceSelections,
+    configs: serviceConfigs,
     uniqueKeys: newUniqueKeys,
     timestamp: new Date().toISOString()
   });

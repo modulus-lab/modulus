@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/client/components/ui/card.js';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/client/components/ui/accordion.js';
 import { Button } from '@/client/components/ui/button.js';
@@ -11,16 +11,35 @@ export interface ResponseOption {
   serviceType: string;
 }
 
+export interface CustomFieldConfig {
+  id: string;
+  label: string;
+  type: 'text' | 'number';
+  defaultValue?: string | number;
+  placeholder?: string;
+  helpText?: string;
+}
+
+export interface CustomConfig {
+  perResponse: Record<string, {
+    fields: CustomFieldConfig[];
+  }>;
+}
+
 export interface ServiceConfig {
   desc: string;
   name: string;
   defaultResponse: string;
   responses: ResponseOption[];
+  customConfig?: CustomConfig;
 }
 
 interface ResponseSelectorProps {
   services: Record<string, ServiceConfig>;
-  onGenerate: (serviceSelections: Record<string, string>) => Promise<void>;
+  onGenerate: (
+    serviceSelections: Record<string, string>,
+    configs: Record<string, Record<string, Record<string, string | number>>>
+  ) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -43,6 +62,42 @@ export function ResponseSelector({ services, onGenerate, isLoading }: ResponseSe
 
   const [selectedOptions, setSelectedOptions] = useState<Record<string, ResponseOption>>(getDefaultSelections());
   const [openAccordions, setOpenAccordions] = useState<string[]>([]);
+  const [customConfigs, setCustomConfigs] = useState<Record<string, Record<string, Record<string, string | number>>>>(() => {
+    const initial: Record<string, Record<string, Record<string, string | number>>> = {};
+    Object.entries(services).forEach(([serviceType, serviceConfig]) => {
+      if (serviceConfig.customConfig?.perResponse) {
+        initial[serviceType] = {};
+        Object.entries(serviceConfig.customConfig.perResponse).forEach(([responseId, responseConfig]) => {
+          initial[serviceType][responseId] = {};
+          responseConfig.fields.forEach(field => {
+            if (field.defaultValue !== undefined) {
+              initial[serviceType][responseId][field.id] = field.defaultValue;
+            }
+          });
+        });
+      }
+    });
+    return initial;
+  });
+
+  useEffect(() => {
+    setSelectedOptions(getDefaultSelections());
+    const initial: Record<string, Record<string, Record<string, string | number>>> = {};
+    Object.entries(services).forEach(([serviceType, serviceConfig]) => {
+      if (serviceConfig.customConfig?.perResponse) {
+        initial[serviceType] = {};
+        Object.entries(serviceConfig.customConfig.perResponse).forEach(([responseId, responseConfig]) => {
+          initial[serviceType][responseId] = {};
+          responseConfig.fields.forEach(field => {
+            if (field.defaultValue !== undefined) {
+              initial[serviceType][responseId][field.id] = field.defaultValue;
+            }
+          });
+        });
+      }
+    });
+    setCustomConfigs(initial);
+  }, [services]);
 
   const handleOptionSelect = (option: ResponseOption) => {
     setSelectedOptions(prev => ({
@@ -58,7 +113,7 @@ export function ResponseSelector({ services, onGenerate, isLoading }: ResponseSe
     });
     
     if (Object.keys(serviceSelections).length > 0) {
-      await onGenerate(serviceSelections);
+      await onGenerate(serviceSelections, customConfigs);
     }
   };
 
@@ -133,6 +188,46 @@ export function ResponseSelector({ services, onGenerate, isLoading }: ResponseSe
                       </button>
                     ))}
                   </div>
+                  {services[serviceType].customConfig?.perResponse?.[selectedOptions[serviceType]?.id]?.fields?.length ? (
+                    <div className="pt-2 pb-4 space-y-3">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Custom Configuration
+                      </div>
+                      <div className="grid grid-cols-1 gap-3">
+                        {services[serviceType].customConfig!.perResponse![selectedOptions[serviceType]?.id].fields.map((field) => (
+                          <div key={`${serviceType}-${field.id}`} className="space-y-1">
+                            <label className="text-sm font-medium text-foreground">
+                              {field.label}
+                            </label>
+                            <input
+                              type={field.type}
+                              placeholder={field.placeholder}
+                              value={customConfigs[serviceType]?.[selectedOptions[serviceType]?.id]?.[field.id] ?? ''}
+                              onChange={(event) => {
+                                const value = field.type === 'number'
+                                  ? (event.target.value === '' ? '' : Number(event.target.value))
+                                  : event.target.value;
+                                setCustomConfigs(prev => ({
+                                  ...prev,
+                                  [serviceType]: {
+                                    ...(prev[serviceType] || {}),
+                                    [selectedOptions[serviceType]?.id]: {
+                                      ...((prev[serviceType] || {})[selectedOptions[serviceType]?.id] || {}),
+                                      [field.id]: value
+                                    }
+                                  }
+                                }));
+                              }}
+                              className="w-full rounded-md border border-border bg-background/80 px-3 py-2 text-sm text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+                            />
+                            {field.helpText ? (
+                              <p className="text-xs text-muted-foreground">{field.helpText}</p>
+                            ) : null}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
                 </AccordionContent>
               </AccordionItem>
             ))}

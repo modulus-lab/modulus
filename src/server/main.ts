@@ -9,6 +9,7 @@ import { globalErrorHandler } from "./errorHandler.js";
 const storage = createInMemoryStorage();
 configureStorage(storage);
 storage.createCollection('responses');
+storage.createCollection('retailerBalances');
 
 const app = express();
 

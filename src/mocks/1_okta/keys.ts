@@ -1,5 +1,5 @@
 import * as jose from "jose";
-import keys from "@/mocks/okta/keys.json" with { type: 'json' };
+import keys from "@/mocks/1_okta/keys.json" with { type: 'json' };
 
 export const alg = 'RS256';
 export const kid = `default`;

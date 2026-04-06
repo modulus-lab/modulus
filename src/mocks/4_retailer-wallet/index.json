@@ -1,0 +1,40 @@
+{
+  "name": "Retailer Wallet Promo Load",
+  "desc": "Loads promo balance from a retailer wallet with a fixed starting balance",
+  "defaultResponse": "success",
+  "useCustomRouter": true,
+  "uniqueKey": {
+    "target": "body",
+    "modifier": "userId",
+    "type": "userId"
+  },
+  "customConfig": {
+    "perResponse": {
+      "success": {
+        "fields": [
+          {
+            "id": "initialBalance",
+            "label": "Initial wallet load",
+            "type": "number",
+            "defaultValue": 200,
+            "helpText": "Starting balance for the retailer wallet used by this user mapping."
+          }
+        ]
+      }
+    }
+  },
+  "responses": [
+    {
+      "id": "success",
+      "name": "success"
+    },
+    {
+      "id": "insufficient_balance",
+      "name": "insufficient balance"
+    },
+    {
+      "id": "bad_request",
+      "name": "bad request"
+    }
+  ]
+}

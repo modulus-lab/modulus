@@ -5,6 +5,7 @@ import { Copy, Check } from 'lucide-react';
 interface ApiResponse {
   responses: Record<string, string>;
   uniqueKeys: Record<string, string>;
+  configs?: Record<string, Record<string, Record<string, string | number>>>;
   errors?: Array<{
     service: string;
     error: string;
@@ -45,7 +46,10 @@ export function Home() {
     }
   };
 
-  const handleGenerateResponse = async (serviceSelections: Record<string, string>) => {
+  const handleGenerateResponse = async (
+    serviceSelections: Record<string, string>,
+    configs: Record<string, Record<string, Record<string, string | number>>>
+  ) => {
     setIsLoading(true);
     
     try {
@@ -54,7 +58,10 @@ export function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(serviceSelections),
+        body: JSON.stringify({
+          responses: serviceSelections,
+          configs
+        }),
       });
 
       const data: ApiResponse = await response.json();
