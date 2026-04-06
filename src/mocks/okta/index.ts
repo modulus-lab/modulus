@@ -4,24 +4,6 @@ import { alg, jwks, kid, privateKey, publicKey } from './keys.js'
 
 const router = express.Router();
 
-router.prototype.name = "Okta OAuth";
-router.prototype.desc = "Mocks OAuth 2.0 flow supporting @okta/react SDK"
-router.prototype.defaultResponse = "auth_success"
-router.prototype.responses = [
-  {
-    id: "auth_success",
-    name: "success"
-  },
-  {
-    id: "auth_error",
-    name: "error"
-  },
-  {
-    id: "auth_error_user_not_assigned",
-    name: "user not assigned"
-  }
-]
-
 router.get('/.well-known/openid-configuration', (req, res) => {
   const baseUrl = `${req.protocol}://${req.get('host')}`;
 

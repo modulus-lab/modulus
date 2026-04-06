@@ -1,0 +1,20 @@
+{
+  "name": "Okta OAuth",
+  "desc": "Mocks OAuth 2.0 flow supporting @okta/react SDK",
+  "defaultResponse": "auth_success",
+  "useCustomRouter": true,
+  "responses": [
+    {
+      "id": "auth_success",
+      "name": "success"
+    },
+    {
+      "id": "auth_error",
+      "name": "error"
+    },
+    {
+      "id": "auth_error_user_not_assigned",
+      "name": "user not assigned"
+    }
+  ]
+}
