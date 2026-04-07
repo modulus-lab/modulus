@@ -8,9 +8,11 @@
     "modifier": "userId",
     "type": "userId"
   },
-  "customConfig": {
-    "perResponse": {
-      "success": {
+  "responses": [
+    {
+      "id": "success",
+      "name": "success",
+      "customConfig": {
         "fields": [
           {
             "id": "initialBalance",
@@ -21,12 +23,6 @@
           }
         ]
       }
-    }
-  },
-  "responses": [
-    {
-      "id": "success",
-      "name": "success"
     },
     {
       "id": "insufficient_balance",

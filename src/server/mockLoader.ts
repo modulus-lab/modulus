@@ -11,8 +11,10 @@ export interface ServiceConfig {
   desc: string;
   defaultResponse: string
   uniqueKey?: UniqueKey
-  customConfig?: {
-    perResponse: Record<string, {
+  responses?: Array<{
+    id: string;
+    name: string;
+    customConfig?: {
       fields: Array<{
         id: string;
         label: string;
@@ -21,11 +23,7 @@ export interface ServiceConfig {
         placeholder?: string;
         helpText?: string;
       }>;
-    }>;
-  };
-  responses?: Array<{
-    id: string;
-    name: string;
+    };
   }>;
 }
 
@@ -138,7 +136,6 @@ async function getJSONRouter(indexPath: string, serviceName: string) {
   router.prototype.desc = json.desc;
   router.prototype.defaultResponse = json.defaultResponse;
   router.prototype.uniqueKey = json.uniqueKey;
-  router.prototype.customConfig = json.customConfig;
 
   console.log(`  → Default response: ${json.defaultResponse}`);
 
@@ -180,7 +177,6 @@ function getServiceConfig(serviceName: string, router: Router) {
     desc: router.prototype?.desc || '',
     defaultResponse: router.prototype?.defaultResponse,
     uniqueKey: router.prototype.uniqueKey,
-    customConfig: router.prototype.customConfig,
     responses: router.prototype?.responses || []
   };
 }

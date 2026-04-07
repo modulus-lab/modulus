@@ -5,6 +5,7 @@ export interface Storage {
   insert: (collection: string, document: any) => string;
   findByUniqueKey: (collection: string, type: string, value: string) => any[];
   findLatest: (collection: string) => any | null;
+  updateById: (collection: string, id: string, updater: (doc: any) => any) => any | null;
 }
 
 interface Document {
@@ -61,6 +62,21 @@ export const createInMemoryStorage = (): Storage => {
     findLatest: (collection: string): any | null => {
       const values = getCollectionValues(collection);
       return values.length > 0 ? values.sort(sortByCreatedAt)[0] : null;
+    },
+
+    updateById: (collection: string, id: string, updater: (doc: any) => any): any | null => {
+      const coll = getOrCreateCollection(collection);
+      const existing = coll.get(id);
+      if (!existing) return null;
+      const updated = {
+        ...existing,
+        ...updater(existing),
+        id: existing.id,
+        createdAt: existing.createdAt,
+        updatedAt: new Date().toISOString()
+      };
+      coll.set(id, updated);
+      return updated;
     },
   };
 };

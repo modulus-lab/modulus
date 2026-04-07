@@ -9,6 +9,9 @@ export interface ResponseOption {
   name: string;
   desc?: string;
   serviceType: string;
+  customConfig?: {
+    fields: CustomFieldConfig[];
+  };
 }
 
 export interface CustomFieldConfig {
@@ -20,18 +23,11 @@ export interface CustomFieldConfig {
   helpText?: string;
 }
 
-export interface CustomConfig {
-  perResponse: Record<string, {
-    fields: CustomFieldConfig[];
-  }>;
-}
-
 export interface ServiceConfig {
   desc: string;
   name: string;
   defaultResponse: string;
   responses: ResponseOption[];
-  customConfig?: CustomConfig;
 }
 
 interface ResponseSelectorProps {
@@ -65,17 +61,17 @@ export function ResponseSelector({ services, onGenerate, isLoading }: ResponseSe
   const [customConfigs, setCustomConfigs] = useState<Record<string, Record<string, Record<string, string | number>>>>(() => {
     const initial: Record<string, Record<string, Record<string, string | number>>> = {};
     Object.entries(services).forEach(([serviceType, serviceConfig]) => {
-      if (serviceConfig.customConfig?.perResponse) {
-        initial[serviceType] = {};
-        Object.entries(serviceConfig.customConfig.perResponse).forEach(([responseId, responseConfig]) => {
-          initial[serviceType][responseId] = {};
-          responseConfig.fields.forEach(field => {
-            if (field.defaultValue !== undefined) {
-              initial[serviceType][responseId][field.id] = field.defaultValue;
-            }
-          });
+      const responseConfigs = serviceConfig.responses.filter(response => response.customConfig?.fields?.length);
+      if (responseConfigs.length === 0) return;
+      initial[serviceType] = {};
+      responseConfigs.forEach(response => {
+        initial[serviceType][response.id] = {};
+        response.customConfig!.fields.forEach(field => {
+          if (field.defaultValue !== undefined) {
+            initial[serviceType][response.id][field.id] = field.defaultValue;
+          }
         });
-      }
+      });
     });
     return initial;
   });
@@ -84,17 +80,17 @@ export function ResponseSelector({ services, onGenerate, isLoading }: ResponseSe
     setSelectedOptions(getDefaultSelections());
     const initial: Record<string, Record<string, Record<string, string | number>>> = {};
     Object.entries(services).forEach(([serviceType, serviceConfig]) => {
-      if (serviceConfig.customConfig?.perResponse) {
-        initial[serviceType] = {};
-        Object.entries(serviceConfig.customConfig.perResponse).forEach(([responseId, responseConfig]) => {
-          initial[serviceType][responseId] = {};
-          responseConfig.fields.forEach(field => {
-            if (field.defaultValue !== undefined) {
-              initial[serviceType][responseId][field.id] = field.defaultValue;
-            }
-          });
+      const responseConfigs = serviceConfig.responses.filter(response => response.customConfig?.fields?.length);
+      if (responseConfigs.length === 0) return;
+      initial[serviceType] = {};
+      responseConfigs.forEach(response => {
+        initial[serviceType][response.id] = {};
+        response.customConfig!.fields.forEach(field => {
+          if (field.defaultValue !== undefined) {
+            initial[serviceType][response.id][field.id] = field.defaultValue;
+          }
         });
-      }
+      });
     });
     setCustomConfigs(initial);
   }, [services]);
@@ -188,13 +184,13 @@ export function ResponseSelector({ services, onGenerate, isLoading }: ResponseSe
                       </button>
                     ))}
                   </div>
-                  {services[serviceType].customConfig?.perResponse?.[selectedOptions[serviceType]?.id]?.fields?.length ? (
+                  {selectedOptions[serviceType]?.customConfig?.fields?.length ? (
                     <div className="pt-2 pb-4 space-y-3">
                       <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                         Custom Configuration
                       </div>
                       <div className="grid grid-cols-1 gap-3">
-                        {services[serviceType].customConfig!.perResponse![selectedOptions[serviceType]?.id].fields.map((field) => (
+                        {selectedOptions[serviceType].customConfig!.fields.map((field) => (
                           <div key={`${serviceType}-${field.id}`} className="space-y-1">
                             <label className="text-sm font-medium text-foreground">
                               {field.label}
